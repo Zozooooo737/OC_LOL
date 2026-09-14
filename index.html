@@ -5,30 +5,33 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Le Choc des Titans : Netanyahu vs Kim Jong Un | Le Combat du Siècle</title>
-	<meta name="description" content="L'affrontement géopolitique et satirique ultime : Benjamin 'The Baritone' Netanyahu contre Kim 'Rocket Marshal' Jong Un. Simulateur de combat jouable, histoire épique et stats de légende.">
-	
+	<meta name="description"
+		content="L'affrontement géopolitique et satirique ultime : Benjamin 'The Baritone' Netanyahu contre Kim 'Rocket Marshal' Jong Un. Simulateur de combat jouable, histoire épique et stats de légende.">
+
 	<!-- Polices Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Teko:wght@600;700&display=swap"
+		rel="stylesheet">
 
 	<style>
 		:root {
 			--bg-space: #060913;
 			--bg-card: rgba(13, 19, 36, 0.85);
 			--bg-card-border: rgba(255, 255, 255, 0.1);
-			
+
 			/* Combattant 1 : Bibi (Bleu & Or) */
 			--bibi-blue: #0ea5e9;
 			--bibi-glow: rgba(14, 165, 233, 0.45);
 			--gold-main: #f59e0b;
 			--gold-light: #fde68a;
-			
+
 			/* Combattant 2 : Kim (Rouge & Pourpre) */
 			--kim-red: #ef4444;
 			--kim-glow: rgba(239, 68, 68, 0.45);
 			--kim-dark: #991b1b;
-			
+
 			--text-light: #f8fafc;
 			--text-muted: #94a3b8;
 			--border-radius-lg: 20px;
@@ -43,7 +46,7 @@
 		body {
 			font-family: 'Plus Jakarta Sans', sans-serif;
 			background-color: var(--bg-space);
-			background-image: 
+			background-image:
 				radial-gradient(circle at 20% 15%, rgba(14, 165, 233, 0.18) 0%, transparent 40%),
 				radial-gradient(circle at 80% 15%, rgba(239, 68, 68, 0.18) 0%, transparent 40%),
 				linear-gradient(180deg, #070a14 0%, #03050a 100%);
@@ -55,14 +58,31 @@
 
 		/* Secousse de l'écran lors des attaques */
 		.shake-screen {
-			animation: screenShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+			animation: screenShake 0.4s cubic-bezier(.36, .07, .19, .97) both;
 		}
 
 		@keyframes screenShake {
-			10%, 90% { transform: translate3d(-3px, 0, 0); }
-			20%, 80% { transform: translate3d(4px, 0, 0); }
-			30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-			40%, 60% { transform: translate3d(6px, 0, 0); }
+
+			10%,
+			90% {
+				transform: translate3d(-3px, 0, 0);
+			}
+
+			20%,
+			80% {
+				transform: translate3d(4px, 0, 0);
+			}
+
+			30%,
+			50%,
+			70% {
+				transform: translate3d(-6px, 0, 0);
+			}
+
+			40%,
+			60% {
+				transform: translate3d(6px, 0, 0);
+			}
 		}
 
 		.container {
@@ -121,9 +141,21 @@
 			gap: 16px;
 		}
 
-		.name-bibi { color: var(--bibi-blue); text-shadow: 0 0 20px var(--bibi-glow); }
-		.name-vs { color: #f59e0b; font-weight: 900; font-size: 1.3em; }
-		.name-kim { color: var(--kim-red); text-shadow: 0 0 20px var(--kim-glow); }
+		.name-bibi {
+			color: var(--bibi-blue);
+			text-shadow: 0 0 20px var(--bibi-glow);
+		}
+
+		.name-vs {
+			color: #f59e0b;
+			font-weight: 900;
+			font-size: 1.3em;
+		}
+
+		.name-kim {
+			color: var(--kim-red);
+			text-shadow: 0 0 20px var(--kim-glow);
+		}
 
 		.subtitle {
 			font-size: 1.1rem;
@@ -395,8 +427,15 @@
 		}
 
 		@keyframes fadeInLog {
-			from { opacity: 0; transform: translateY(-6px); }
-			to { opacity: 1; transform: translateY(0); }
+			from {
+				opacity: 0;
+				transform: translateY(-6px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
 		}
 
 		.combat-controls {
@@ -521,7 +560,8 @@
 			margin-top: 20px;
 		}
 
-		.tape-table th, .tape-table td {
+		.tape-table th,
+		.tape-table td {
 			padding: 16px 12px;
 			text-align: center;
 			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -614,8 +654,15 @@
 		}
 
 		@keyframes flySpark {
-			0% { transform: scale(1) translate(0, 0); opacity: 1; }
-			100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; }
+			0% {
+				transform: scale(1) translate(0, 0);
+				opacity: 1;
+			}
+
+			100% {
+				transform: scale(0) translate(var(--tx), var(--ty));
+				opacity: 0;
+			}
 		}
 
 		/* Responsive */
@@ -623,15 +670,19 @@
 			.arena-battlefield {
 				grid-template-columns: 1fr;
 			}
+
 			.actions-wrapper {
 				grid-template-columns: 1fr;
 			}
+
 			.poster-overlay-banner {
 				flex-direction: column;
 				gap: 8px;
 				padding: 8px 18px;
 			}
-			.tape-table th, .tape-table td {
+
+			.tape-table th,
+			.tape-table td {
 				font-size: 0.82rem;
 				padding: 10px 6px;
 			}
@@ -651,20 +702,17 @@
 				<span class="name-vs">VS</span>
 				<span class="name-kim">Kim Jong Un</span>
 			</div>
-			<p class="subtitle">« Quand la voix de baryton et les cartons de l'ONU se heurtent au bouton rouge et aux clips en veste de cuir en slow-motion. »</p>
+			<p class="subtitle">« Quand la voix de baryton et les cartons de l'ONU se heurtent au bouton rouge et aux
+				clips en veste de cuir en slow-motion. »</p>
 		</header>
 
 		<main>
 			<!-- ================= AFFICHE DU DUEL ================= -->
 			<section class="arena-poster-section">
 				<div class="poster-wrapper">
-					<img 
-						id="duel-banner-img" 
-						class="poster-img" 
-						src="combat.jpg" 
+					<img id="duel-banner-img" class="poster-img" src="combat.jpg"
 						onerror="this.src='https://imgs.search.brave.com/ZMAMfI5gztn5tYWcEFjFiYDXwllfUoSwrosaahCut_k/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuanBvc3QuY29t/L2ltYWdlL3VwbG9h/ZC9mX2F1dG8sZmxf/bG9zc3kvcV9hdXRv/L2NfZmlsbCxnX2Zh/Y2VzOmNlbnRlcixo/XzcyMCx3XzEyODAv/MjcyMTYx'"
-						alt="Netanyahu vs Kim Jong Un - Le Choc des Titans"
-					>
+						alt="Netanyahu vs Kim Jong Un - Le Choc des Titans">
 					<div class="poster-overlay-banner">
 						<span class="fighter-quick-tag name-bibi">🎙️ "The Eternal Strategist"</span>
 						<span style="color: #f59e0b; font-weight: 900;">⚡ ROUND 1 ⚡</span>
@@ -677,7 +725,8 @@
 			<section class="simulator-section" id="simulator-section">
 				<div class="simulator-header">
 					<h2 class="simulator-title">🎮 Simulateur de Duel Diplomatique</h2>
-					<p style="color: var(--text-muted); font-size: 0.95rem;">Choisissez les attaques pour faire basculer l'équilibre mondial !</p>
+					<p style="color: var(--text-muted); font-size: 0.95rem;">Choisissez les attaques pour faire basculer
+						l'équilibre mondial !</p>
 				</div>
 
 				<!-- Jauges de PV & Combattants -->
@@ -713,15 +762,18 @@
 					<div>
 						<div class="action-column-title name-bibi">Arsenal de Bibi</div>
 						<div class="moves-grid">
-							<button class="btn-move btn-move-bibi" onclick="attackMove('bibi', 'marker', 20, 'Bibi brandit un schéma explicatif au feutre rouge géant ! Kim est pris de vertige diplomatique.')">
+							<button class="btn-move btn-move-bibi"
+								onclick="attackMove('bibi', 'marker', 20, 'Bibi brandit un schéma explicatif au feutre rouge géant ! Kim est pris de vertige diplomatique.')">
 								<span>🖍️ Schéma ONU au Feutre Rouge</span>
 								<span class="move-dmg">-20 PV</span>
 							</button>
-							<button class="btn-move btn-move-bibi" onclick="attackMove('bibi', 'speech', 15, 'Bibi entame un discours de 3h45 en anglais impeccable avec sa voix de baryton. Les tympans adverses capitulent.')">
+							<button class="btn-move btn-move-bibi"
+								onclick="attackMove('bibi', 'speech', 15, 'Bibi entame un discours de 3h45 en anglais impeccable avec sa voix de baryton. Les tympans adverses capitulent.')">
 								<span>🎙️ Discours Marathon 4H</span>
 								<span class="move-dmg">-15 PV</span>
 							</button>
-							<button class="btn-move btn-move-bibi" onclick="attackMove('bibi', 'dissolve', -18, 'Bibi dissout subitement la Knesset ! Esquive parfaite et regain d’énergie politique.')">
+							<button class="btn-move btn-move-bibi"
+								onclick="attackMove('bibi', 'dissolve', -18, 'Bibi dissout subitement la Knesset ! Esquive parfaite et regain d’énergie politique.')">
 								<span>📜 Dissolution du Parlement</span>
 								<span class="move-dmg" style="color: #4ade80;">+18 PV</span>
 							</button>
@@ -732,15 +784,18 @@
 					<div>
 						<div class="action-column-title name-kim">Arsenal de Kim</div>
 						<div class="moves-grid">
-							<button class="btn-move btn-move-kim" onclick="attackMove('kim', 'leather', 22, 'Kim enfile sa veste en cuir noir et marche au ralenti hollywoodien. Une onde de choc stylistique déferle !')">
+							<button class="btn-move btn-move-kim"
+								onclick="attackMove('kim', 'leather', 22, 'Kim enfile sa veste en cuir noir et marche au ralenti hollywoodien. Une onde de choc stylistique déferle !')">
 								<span>🧥 Défilé Cuir Slow-Motion</span>
 								<span class="move-dmg">-22 PV</span>
 							</button>
-							<button class="btn-move btn-move-kim" onclick="attackMove('kim', 'parade', 16, 'Kim ordonne un défilé de 50 000 soldats synchronisés au millimètre. L’effet sonore fait trembler l’estrade.')">
+							<button class="btn-move btn-move-kim"
+								onclick="attackMove('kim', 'parade', 16, 'Kim ordonne un défilé de 50 000 soldats synchronisés au millimètre. L’effet sonore fait trembler l’estrade.')">
 								<span>🥁 Marche Militaire Parfaite</span>
 								<span class="move-dmg">-16 PV</span>
 							</button>
-							<button class="btn-move btn-move-kim" onclick="attackMove('kim', 'redbutton', 28, 'Kim pose négligemment sa tasse de thé juste au-dessus du gros bouton rouge. Pression psychologique maximale !')">
+							<button class="btn-move btn-move-kim"
+								onclick="attackMove('kim', 'redbutton', 28, 'Kim pose négligemment sa tasse de thé juste au-dessus du gros bouton rouge. Pression psychologique maximale !')">
 								<span>🔴 Doigt sur le Bouton Rouge</span>
 								<span class="move-dmg">-28 PV</span>
 							</button>
@@ -770,32 +825,41 @@
 			<section class="story-section">
 				<div class="section-header">
 					<h2 class="section-title">La Chronique de l'Affrontement</h2>
-					<p style="color: var(--text-muted);">Comment deux titans aux styles radicalement opposés se sont retrouvés au centre de l'arène mondiale.</p>
+					<p style="color: var(--text-muted);">Comment deux titans aux styles radicalement opposés se sont
+						retrouvés au centre de l'arène mondiale.</p>
 				</div>
 
 				<div class="story-timeline">
 					<div class="story-card">
 						<span class="act-tag">Prologue</span>
 						<h3>L'Incident du Sommet Neutre</h3>
-						<p>Tout a commencé lors d'une conférence diplomatique secrète en Suisse. Les deux délégations réclamaient simultanément le micro central pour l'allocution inaugurale. Aucun des deux dirigeants ne voulut céder le pupitre.</p>
+						<p>Tout a commencé lors d'une conférence diplomatique secrète en Suisse. Les deux délégations
+							réclamaient simultanément le micro central pour l'allocution inaugurale. Aucun des deux
+							dirigeants ne voulut céder le pupitre.</p>
 					</div>
 
 					<div class="story-card">
 						<span class="act-tag">Acte I</span>
 						<h3>La Guerre des Feutres & Missiles</h3>
-						<p>Bibi répliqua en dégainant une pancarte carton de 2 mètres avec une bombe dessinée au feutre rouge indélébile. Kim Jong Un répondit immédiatement en publiant un clip 4K en veste aviateur avec compte à rebours dramatique.</p>
+						<p>Bibi répliqua en dégainant une pancarte carton de 2 mètres avec une bombe dessinée au feutre
+							rouge indélébile. Kim Jong Un répondit immédiatement en publiant un clip 4K en veste
+							aviateur avec compte à rebours dramatique.</p>
 					</div>
 
 					<div class="story-card">
 						<span class="act-tag">Acte II</span>
 						<h3>Le Duel des Barytons</h3>
-						<p>Réunis face à face sur une estrade spécialement renforcée, ils engagèrent une joute verbale d'une intensité inouïe. Les décibels de Netanyahu firent osciller les lustres, tandis que les regards perçants de Kim fissuraient le parquet.</p>
+						<p>Réunis face à face sur une estrade spécialement renforcée, ils engagèrent une joute verbale
+							d'une intensité inouïe. Les décibels de Netanyahu firent osciller les lustres, tandis que
+							les regards perçants de Kim fissuraient le parquet.</p>
 					</div>
 
 					<div class="story-card">
 						<span class="act-tag">Épilogue</span>
 						<h3>Le Pacte du Grand Banquet</h3>
-						<p>Épuisés après 14 heures de poses héroïques ininterrompues, les deux hommes décidèrent d'un cessez-le-feu historique autour d'un grand festin mêlant falafels dorés et barbecue coréen traditionnel.</p>
+						<p>Épuisés après 14 heures de poses héroïques ininterrompues, les deux hommes décidèrent d'un
+							cessez-le-feu historique autour d'un grand festin mêlant falafels dorés et barbecue coréen
+							traditionnel.</p>
 					</div>
 				</div>
 			</section>
@@ -804,7 +868,8 @@
 			<section class="tape-section">
 				<div class="section-header">
 					<h2 class="section-title">Fiche Comparative (Tale of the Tape)</h2>
-					<p style="color: var(--text-muted);">L'analyse technique des arbitres internationaux avant le coup d'envoi.</p>
+					<p style="color: var(--text-muted);">L'analyse technique des arbitres internationaux avant le coup
+						d'envoi.</p>
 				</div>
 
 				<table class="tape-table">
@@ -848,10 +913,12 @@
 			<!-- ================= GENERATEUR DE CLASHS ================= -->
 			<section class="clash-section">
 				<h2 class="section-title" style="font-size: 1.6rem;">⚡ Générateur de Punchlines Diplomatiques</h2>
-				<p style="color: var(--text-muted); margin-bottom: 15px;">Simulez les répliques que les microphones officiels ont préféré couper.</p>
-				
+				<p style="color: var(--text-muted); margin-bottom: 15px;">Simulez les répliques que les microphones
+					officiels ont préféré couper.</p>
+
 				<div class="clash-box" id="clash-box">
-					« Monsieur Kim, vos fusées sont peut-être rapides, mais aucune n'a la portée de mon allocution de 18 heures à la tribune. » — Bibi
+					« Monsieur Kim, vos fusées sont peut-être rapides, mais aucune n'a la portée de mon allocution de 18
+					heures à la tribune. » — Bibi
 				</div>
 
 				<button class="btn-clash" onclick="generateClash()">
@@ -862,7 +929,8 @@
 
 		<footer>
 			<p>Site parodique et satirique réalisé à des fins créatives et pédagogiques.</p>
-			<p style="margin-top: 6px; font-size: 0.75rem; opacity: 0.7;">Aucun diplomate, feutre rouge ou bouton n'a été endommagé pendant ce combat.</p>
+			<p style="margin-top: 6px; font-size: 0.75rem; opacity: 0.7;">Aucun diplomate, feutre rouge ou bouton n'a
+				été endommagé pendant ce combat.</p>
 		</footer>
 	</div>
 
@@ -1001,7 +1069,7 @@
 			}
 			playSound('ultimate');
 			triggerShake();
-			
+
 			hpBibi = Math.max(0, hpBibi - 25);
 			hpKim = Math.max(0, hpKim - 25);
 			updateHpBars();
@@ -1045,7 +1113,7 @@
 				spark.style.width = Math.random() * 8 + 4 + 'px';
 				spark.style.height = spark.style.width;
 				spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-				
+
 				const angle = Math.random() * Math.PI * 2;
 				const dist = Math.random() * 120 + 40;
 				spark.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
