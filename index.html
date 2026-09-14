@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Le Choc des Titans : Netanyahu vs Kim Jong Un | Le Combat du Siècle</title>
+	<meta name="description"
+		content="L'affrontement géopolitique et satirique ultime : Benjamin 'The Baritone' Netanyahu contre Kim 'Rocket Marshal' Jong Un. Simulateur de combat jouable, histoire épique et stats de légende.">
+
+	<!-- Polices Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Teko:wght@600;700&display=swap"
+		rel="stylesheet">
+
+	<style>
+		:root {
+			--bg-space: #060913;
+			--bg-card: rgba(13, 19, 36, 0.85);
+			--bg-card-border: rgba(255, 255, 255, 0.1);
+
+			/* Combattant 1 : Bibi (Bleu & Or) */
+			--bibi-blue: #0ea5e9;
+			--bibi-glow: rgba(14, 165, 233, 0.45);
+			--gold-main: #f59e0b;
+			--gold-light: #fde68a;
+
+			/* Combattant 2 : Kim (Rouge & Pourpre) */
+			--kim-red: #ef4444;
+			--kim-glow: rgba(239, 68, 68, 0.45);
+			--kim-dark: #991b1b;
+
+			--text-light: #f8fafc;
+			--text-muted: #94a3b8;
+			--border-radius-lg: 20px;
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: 'Plus Jakarta Sans', sans-serif;
+			background-color: var(--bg-space);
+			background-image:
+				radial-gradient(circle at 20% 15%, rgba(14, 165, 233, 0.18) 0%, transparent 40%),
+				radial-gradient(circle at 80% 15%, rgba(239, 68, 68, 0.18) 0%, transparent 40%),
+				linear-gradient(180deg, #070a14 0%, #03050a 100%);
+			color: var(--text-light);
+			min-height: 100vh;
+			overflow-x: hidden;
+			line-height: 1.6;
+		}
+
+		/* Secousse de l'écran lors des attaques */
+		.shake-screen {
+			animation: screenShake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+		}
+
+		@keyframes screenShake {
+
+			10%,
+			90% {
+				transform: translate3d(-3px, 0, 0);
+			}
+
+			20%,
+			80% {
+				transform: translate3d(4px, 0, 0);
+			}
+
+			30%,
+			50%,
+			70% {
+				transform: translate3d(-6px, 0, 0);
+			}
+
+			40%,
+			60% {
+				transform: translate3d(6px, 0, 0);
+			}
+		}
+
+		.container {
+			max-width: 1100px;
+			margin: 0 auto;
+			padding: 40px 20px 90px;
+			position: relative;
+			z-index: 2;
+		}
+
+		/* En-tête / Badge Duel */
+		header {
+			text-align: center;
+			margin-bottom: 45px;
+		}
+
+		.duel-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			background: linear-gradient(90deg, rgba(14, 165, 233, 0.2), rgba(239, 68, 68, 0.2));
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			padding: 8px 24px;
+			border-radius: 9999px;
+			font-size: 0.85rem;
+			font-weight: 800;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			margin-bottom: 18px;
+			box-shadow: 0 0 25px rgba(245, 158, 11, 0.2);
+		}
+
+		h1 {
+			font-family: 'Cinzel', serif;
+			font-size: clamp(2.3rem, 6vw, 4.2rem);
+			font-weight: 900;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			background: linear-gradient(180deg, #ffffff 0%, #fde68a 60%, #f59e0b 100%);
+			background-clip: text;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			text-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+			line-height: 1.1;
+			margin-bottom: 14px;
+		}
+
+		.vs-title-tag {
+			font-family: 'Teko', sans-serif;
+			font-size: clamp(1.8rem, 4vw, 2.6rem);
+			letter-spacing: 4px;
+			margin-bottom: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 16px;
+		}
+
+		.name-bibi {
+			color: var(--bibi-blue);
+			text-shadow: 0 0 20px var(--bibi-glow);
+		}
+
+		.name-vs {
+			color: #f59e0b;
+			font-weight: 900;
+			font-size: 1.3em;
+		}
+
+		.name-kim {
+			color: var(--kim-red);
+			text-shadow: 0 0 20px var(--kim-glow);
+		}
+
+		.subtitle {
+			font-size: 1.1rem;
+			color: var(--text-muted);
+			max-width: 720px;
+			margin: 0 auto;
+			font-style: italic;
+		}
+
+		/* ==================== AFFICHE PRINCIPALE DE COMBAT ==================== */
+		.arena-poster-section {
+			margin-bottom: 60px;
+			position: relative;
+		}
+
+		.poster-wrapper {
+			position: relative;
+			background: linear-gradient(145deg, rgba(14, 165, 233, 0.3), rgba(239, 68, 68, 0.3));
+			padding: 8px;
+			border-radius: 26px;
+			box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(245, 158, 11, 0.25);
+			overflow: hidden;
+		}
+
+		.poster-img {
+			width: 100%;
+			max-height: 540px;
+			object-fit: cover;
+			display: block;
+			border-radius: 20px;
+			filter: contrast(1.08) brightness(1.02);
+		}
+
+		.poster-overlay-banner {
+			position: absolute;
+			bottom: 24px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: rgba(6, 9, 19, 0.88);
+			backdrop-filter: blur(14px);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			border-radius: 50px;
+			padding: 10px 30px;
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+			white-space: nowrap;
+		}
+
+		.fighter-quick-tag {
+			font-size: 0.9rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+
+		/* ==================== SIMULATEUR DE COMBAT ==================== */
+		.simulator-section {
+			background: var(--bg-card);
+			border: 1px solid var(--bg-card-border);
+			backdrop-filter: blur(16px);
+			border-radius: var(--border-radius-lg);
+			padding: 35px 25px;
+			margin-bottom: 60px;
+			box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.simulator-header {
+			text-align: center;
+			margin-bottom: 25px;
+		}
+
+		.simulator-title {
+			font-family: 'Cinzel', serif;
+			font-size: 1.8rem;
+			color: var(--gold-light);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+		}
+
+		/* Barres de PV et Arène */
+		.arena-battlefield {
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+			gap: 20px;
+			align-items: center;
+			margin-bottom: 30px;
+		}
+
+		.fighter-corner {
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 16px;
+			padding: 20px;
+			text-align: center;
+			position: relative;
+		}
+
+		.fighter-corner.bibi-side {
+			border-left: 4px solid var(--bibi-blue);
+		}
+
+		.fighter-corner.kim-side {
+			border-right: 4px solid var(--kim-red);
+		}
+
+		.corner-avatar {
+			font-size: 3rem;
+			margin-bottom: 8px;
+			display: inline-block;
+			transition: transform 0.2s ease;
+		}
+
+		.corner-name {
+			font-family: 'Cinzel', serif;
+			font-size: 1.2rem;
+			font-weight: 800;
+			margin-bottom: 4px;
+		}
+
+		.corner-subtitle {
+			font-size: 0.8rem;
+			color: var(--text-muted);
+			margin-bottom: 14px;
+		}
+
+		/* Barres de vie */
+		.hp-bar-container {
+			background: rgba(0, 0, 0, 0.6);
+			border-radius: 10px;
+			height: 22px;
+			overflow: hidden;
+			position: relative;
+			border: 1px solid rgba(255, 255, 255, 0.15);
+		}
+
+		.hp-bar-fill {
+			height: 100%;
+			width: 100%;
+			transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s;
+		}
+
+		.hp-bibi-fill {
+			background: linear-gradient(90deg, #0284c7, #38bdf8);
+		}
+
+		.hp-kim-fill {
+			background: linear-gradient(90deg, #dc2626, #f87171);
+		}
+
+		.hp-text {
+			position: absolute;
+			width: 100%;
+			text-align: center;
+			top: 1px;
+			left: 0;
+			font-size: 0.75rem;
+			font-weight: 800;
+			text-shadow: 0 1px 3px black;
+		}
+
+		.center-vs-ring {
+			text-align: center;
+			font-family: 'Teko', sans-serif;
+			font-size: 2.8rem;
+			font-weight: 900;
+			color: var(--gold-main);
+			padding: 0 10px;
+		}
+
+		/* Boutons d'action */
+		.actions-wrapper {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 20px;
+			margin-bottom: 25px;
+		}
+
+		.action-column-title {
+			font-size: 0.85rem;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			margin-bottom: 12px;
+			text-align: center;
+			font-weight: 700;
+		}
+
+		.moves-grid {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.btn-move {
+			border: none;
+			padding: 12px 18px;
+			border-radius: 12px;
+			font-size: 0.92rem;
+			font-weight: 700;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: all 0.2s ease;
+			color: #ffffff;
+			text-align: left;
+		}
+
+		.btn-move-bibi {
+			background: linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(2, 132, 199, 0.45));
+			border: 1px solid rgba(14, 165, 233, 0.5);
+		}
+
+		.btn-move-bibi:hover:not(:disabled) {
+			transform: translateX(4px);
+			background: linear-gradient(135deg, rgba(14, 165, 233, 0.45), rgba(2, 132, 199, 0.75));
+			box-shadow: 0 0 15px var(--bibi-glow);
+		}
+
+		.btn-move-kim {
+			background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(185, 28, 28, 0.45));
+			border: 1px solid rgba(239, 68, 68, 0.5);
+		}
+
+		.btn-move-kim:hover:not(:disabled) {
+			transform: translateX(-4px);
+			background: linear-gradient(135deg, rgba(239, 68, 68, 0.45), rgba(185, 28, 28, 0.75));
+			box-shadow: 0 0 15px var(--kim-glow);
+		}
+
+		.btn-move:active:not(:disabled) {
+			transform: scale(0.97);
+		}
+
+		.btn-move:disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+		}
+
+		.move-dmg {
+			font-size: 0.8rem;
+			padding: 2px 8px;
+			border-radius: 6px;
+			background: rgba(0, 0, 0, 0.4);
+		}
+
+		/* Zone d'arbitrage & Logs */
+		.battle-log-card {
+			background: rgba(0, 0, 0, 0.5);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 12px;
+			padding: 16px;
+			min-height: 80px;
+			max-height: 140px;
+			overflow-y: auto;
+			font-size: 0.92rem;
+			display: flex;
+			flex-direction: column-reverse;
+			gap: 8px;
+		}
+
+		.log-entry {
+			animation: fadeInLog 0.3s ease-out;
+		}
+
+		@keyframes fadeInLog {
+			from {
+				opacity: 0;
+				transform: translateY(-6px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.combat-controls {
+			margin-top: 18px;
+			display: flex;
+			justify-content: center;
+			gap: 15px;
+		}
+
+		.btn-special-ultimate {
+			background: linear-gradient(135deg, #f59e0b, #d97706);
+			color: #050811;
+			font-family: 'Cinzel', serif;
+			font-weight: 900;
+			border: none;
+			padding: 14px 28px;
+			border-radius: 50px;
+			cursor: pointer;
+			box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+			transition: all 0.2s ease;
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.btn-special-ultimate:hover {
+			transform: scale(1.05);
+			box-shadow: 0 0 35px rgba(245, 158, 11, 0.7);
+		}
+
+		.btn-reset-fight {
+			background: transparent;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			color: var(--text-muted);
+			padding: 12px 22px;
+			border-radius: 50px;
+			cursor: pointer;
+			font-weight: 700;
+			transition: all 0.2s;
+		}
+
+		.btn-reset-fight:hover {
+			color: #ffffff;
+			border-color: #ffffff;
+		}
+
+		/* ==================== HISTOIRE DUEL EN 4 ACTES ==================== */
+		.story-section {
+			margin-bottom: 60px;
+		}
+
+		.section-header {
+			text-align: center;
+			margin-bottom: 35px;
+		}
+
+		.section-title {
+			font-family: 'Cinzel', serif;
+			font-size: 2rem;
+			color: var(--gold-light);
+			margin-bottom: 8px;
+		}
+
+		.story-timeline {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 24px;
+		}
+
+		.story-card {
+			background: var(--bg-card);
+			border: 1px solid var(--bg-card-border);
+			backdrop-filter: blur(14px);
+			border-radius: 18px;
+			padding: 28px 22px;
+			position: relative;
+			transition: transform 0.3s ease, border-color 0.3s ease;
+		}
+
+		.story-card:hover {
+			transform: translateY(-6px);
+			border-color: rgba(245, 158, 11, 0.4);
+			box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+		}
+
+		.act-tag {
+			font-family: 'Cinzel', serif;
+			font-size: 0.8rem;
+			color: var(--gold-main);
+			font-weight: 800;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			margin-bottom: 8px;
+			display: block;
+		}
+
+		.story-card h3 {
+			font-size: 1.15rem;
+			color: #ffffff;
+			margin-bottom: 12px;
+		}
+
+		.story-card p {
+			font-size: 0.92rem;
+			color: var(--text-muted);
+			line-height: 1.6;
+		}
+
+		/* ==================== TALE OF THE TAPE (STATS BOXE) ==================== */
+		.tape-section {
+			background: var(--bg-card);
+			border: 1px solid var(--bg-card-border);
+			border-radius: var(--border-radius-lg);
+			padding: 40px 30px;
+			margin-bottom: 60px;
+			backdrop-filter: blur(14px);
+		}
+
+		.tape-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		.tape-table th,
+		.tape-table td {
+			padding: 16px 12px;
+			text-align: center;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		}
+
+		.tape-table th {
+			font-family: 'Cinzel', serif;
+			font-size: 1.1rem;
+			color: var(--gold-light);
+		}
+
+		.tape-crit {
+			font-weight: 800;
+			color: var(--gold-main);
+			text-transform: uppercase;
+			font-size: 0.85rem;
+			letter-spacing: 1px;
+		}
+
+		.tape-bibi-val {
+			color: #7dd3fc;
+			font-weight: 600;
+		}
+
+		.tape-kim-val {
+			color: #fca5a5;
+			font-weight: 600;
+		}
+
+		/* ==================== GENERATEUR DE CLASHS DIPLOMATIQUES ==================== */
+		.clash-section {
+			text-align: center;
+			background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(239, 68, 68, 0.1));
+			border: 1px dashed rgba(245, 158, 11, 0.4);
+			border-radius: var(--border-radius-lg);
+			padding: 35px 25px;
+			margin-bottom: 50px;
+		}
+
+		.clash-box {
+			background: rgba(0, 0, 0, 0.6);
+			border-left: 4px solid var(--gold-main);
+			border-radius: 12px;
+			padding: 24px;
+			margin: 20px auto;
+			max-width: 800px;
+			font-size: 1.15rem;
+			font-style: italic;
+			color: #f1f5f9;
+			min-height: 80px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.btn-clash {
+			background: linear-gradient(135deg, #0ea5e9, #ef4444);
+			color: white;
+			border: none;
+			padding: 14px 32px;
+			font-size: 1rem;
+			font-weight: 800;
+			border-radius: 50px;
+			cursor: pointer;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+			transition: all 0.2s ease;
+		}
+
+		.btn-clash:hover {
+			transform: scale(1.04);
+			filter: brightness(1.15);
+		}
+
+		/* Footer */
+		footer {
+			text-align: center;
+			padding-top: 30px;
+			border-top: 1px solid rgba(255, 255, 255, 0.08);
+			font-size: 0.85rem;
+			color: var(--text-muted);
+		}
+
+		/* Effets particules/confettis */
+		.spark {
+			position: fixed;
+			pointer-events: none;
+			z-index: 9999;
+			border-radius: 50%;
+			animation: flySpark 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+		}
+
+		@keyframes flySpark {
+			0% {
+				transform: scale(1) translate(0, 0);
+				opacity: 1;
+			}
+
+			100% {
+				transform: scale(0) translate(var(--tx), var(--ty));
+				opacity: 0;
+			}
+		}
+
+		/* Responsive */
+		@media (max-width: 768px) {
+			.arena-battlefield {
+				grid-template-columns: 1fr;
+			}
+
+			.actions-wrapper {
+				grid-template-columns: 1fr;
+			}
+
+			.poster-overlay-banner {
+				flex-direction: column;
+				gap: 8px;
+				padding: 8px 18px;
+			}
+
+			.tape-table th,
+			.tape-table td {
+				font-size: 0.82rem;
+				padding: 10px 6px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container" id="main-container">
+		<!-- En-tête -->
+		<header>
+			<div class="duel-badge">⚔️ LE COMBAT GÉOPOLITIQUE DU SIÈCLE ⚔️</div>
+			<h1>Le Choc des Titans</h1>
+			<div class="vs-title-tag">
+				<span class="name-bibi">Benjamin Netanyahu</span>
+				<span class="name-vs">VS</span>
+				<span class="name-kim">Kim Jong Un</span>
+			</div>
+			<p class="subtitle">« Quand la voix de baryton et les cartons de l'ONU se heurtent au bouton rouge et aux
+				clips en veste de cuir en slow-motion. »</p>
+		</header>
+
+		<main>
+			<!-- ================= AFFICHE DU DUEL ================= -->
+			<section class="arena-poster-section">
+				<div class="poster-wrapper">
+					<img id="duel-banner-img" class="poster-img" src="combat.jpg"
+						onerror="this.src='https://imgs.search.brave.com/ZMAMfI5gztn5tYWcEFjFiYDXwllfUoSwrosaahCut_k/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuanBvc3QuY29t/L2ltYWdlL3VwbG9h/ZC9mX2F1dG8sZmxf/bG9zc3kvcV9hdXRv/L2NfZmlsbCxnX2Zh/Y2VzOmNlbnRlcixo/XzcyMCx3XzEyODAv/MjcyMTYx'"
+						alt="Netanyahu vs Kim Jong Un - Le Choc des Titans">
+					<div class="poster-overlay-banner">
+						<span class="fighter-quick-tag name-bibi">🎙️ "The Eternal Strategist"</span>
+						<span style="color: #f59e0b; font-weight: 900;">⚡ ROUND 1 ⚡</span>
+						<span class="fighter-quick-tag name-kim">🚀 "The Rocket Marshal"</span>
+					</div>
+				</div>
+			</section>
+
+			<!-- ================= SIMULATEUR DE COMBAT INTERACTIF ================= -->
+			<section class="simulator-section" id="simulator-section">
+				<div class="simulator-header">
+					<h2 class="simulator-title">🎮 Simulateur de Duel Diplomatique</h2>
+					<p style="color: var(--text-muted); font-size: 0.95rem;">Choisissez les attaques pour faire basculer
+						l'équilibre mondial !</p>
+				</div>
+
+				<!-- Jauges de PV & Combattants -->
+				<div class="arena-battlefield">
+					<div class="fighter-corner bibi-side">
+						<div class="corner-avatar" id="avatar-bibi">👔</div>
+						<div class="corner-name name-bibi">B. Netanyahu</div>
+						<div class="corner-subtitle">Maître des Dissolutions & Décibels</div>
+						<div class="hp-bar-container">
+							<div class="hp-bar-fill hp-bibi-fill" id="hp-bibi-bar" style="width: 100%;"></div>
+							<div class="hp-text" id="hp-bibi-text">100 / 100 PV</div>
+						</div>
+					</div>
+
+					<div class="center-vs-ring">
+						VS
+					</div>
+
+					<div class="fighter-corner kim-side">
+						<div class="corner-avatar" id="avatar-kim">🕶️</div>
+						<div class="corner-name name-kim">Kim Jong Un</div>
+						<div class="corner-subtitle">Grand Maréchal du Slow-Motion</div>
+						<div class="hp-bar-container">
+							<div class="hp-bar-fill hp-kim-fill" id="hp-kim-bar" style="width: 100%;"></div>
+							<div class="hp-text" id="hp-kim-text">100 / 100 PV</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Boutons de Coups / Attaques -->
+				<div class="actions-wrapper">
+					<!-- Côté Bibi -->
+					<div>
+						<div class="action-column-title name-bibi">Arsenal de Bibi</div>
+						<div class="moves-grid">
+							<button class="btn-move btn-move-bibi"
+								onclick="attackMove('bibi', 'marker', 20, 'Bibi brandit un schéma explicatif au feutre rouge géant ! Kim est pris de vertige diplomatique.')">
+								<span>🖍️ Schéma ONU au Feutre Rouge</span>
+								<span class="move-dmg">-20 PV</span>
+							</button>
+							<button class="btn-move btn-move-bibi"
+								onclick="attackMove('bibi', 'speech', 15, 'Bibi entame un discours de 3h45 en anglais impeccable avec sa voix de baryton. Les tympans adverses capitulent.')">
+								<span>🎙️ Discours Marathon 4H</span>
+								<span class="move-dmg">-15 PV</span>
+							</button>
+							<button class="btn-move btn-move-bibi"
+								onclick="attackMove('bibi', 'dissolve', -18, 'Bibi dissout subitement la Knesset ! Esquive parfaite et regain d’énergie politique.')">
+								<span>📜 Dissolution du Parlement</span>
+								<span class="move-dmg" style="color: #4ade80;">+18 PV</span>
+							</button>
+						</div>
+					</div>
+
+					<!-- Côté Kim -->
+					<div>
+						<div class="action-column-title name-kim">Arsenal de Kim</div>
+						<div class="moves-grid">
+							<button class="btn-move btn-move-kim"
+								onclick="attackMove('kim', 'leather', 22, 'Kim enfile sa veste en cuir noir et marche au ralenti hollywoodien. Une onde de choc stylistique déferle !')">
+								<span>🧥 Défilé Cuir Slow-Motion</span>
+								<span class="move-dmg">-22 PV</span>
+							</button>
+							<button class="btn-move btn-move-kim"
+								onclick="attackMove('kim', 'parade', 16, 'Kim ordonne un défilé de 50 000 soldats synchronisés au millimètre. L’effet sonore fait trembler l’estrade.')">
+								<span>🥁 Marche Militaire Parfaite</span>
+								<span class="move-dmg">-16 PV</span>
+							</button>
+							<button class="btn-move btn-move-kim"
+								onclick="attackMove('kim', 'redbutton', 28, 'Kim pose négligemment sa tasse de thé juste au-dessus du gros bouton rouge. Pression psychologique maximale !')">
+								<span>🔴 Doigt sur le Bouton Rouge</span>
+								<span class="move-dmg">-28 PV</span>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Journal de combat -->
+				<div class="battle-log-card" id="battle-log">
+					<div class="log-entry" style="color: #f59e0b; font-weight: 700;">
+						🔔 L'arbitre mondial sonne le gong ! Que le combat oratoire et géopolitique commence !
+					</div>
+				</div>
+
+				<!-- Commandes spéciales -->
+				<div class="combat-controls">
+					<button class="btn-special-ultimate" onclick="ultimateCombo()">
+						<span>⚡</span> ULTIMATE MOVE : Sommet Intergalactique
+					</button>
+					<button class="btn-reset-fight" onclick="resetBattle()">
+						🔄 Recommencer le Duel
+					</button>
+				</div>
+			</section>
+
+			<!-- ================= L'HISTOIRE EN 4 ACTES ================= -->
+			<section class="story-section">
+				<div class="section-header">
+					<h2 class="section-title">La Chronique de l'Affrontement</h2>
+					<p style="color: var(--text-muted);">Comment deux titans aux styles radicalement opposés se sont
+						retrouvés au centre de l'arène mondiale.</p>
+				</div>
+
+				<div class="story-timeline">
+					<div class="story-card">
+						<span class="act-tag">Prologue</span>
+						<h3>L'Incident du Sommet Neutre</h3>
+						<p>Tout a commencé lors d'une conférence diplomatique secrète en Suisse. Les deux délégations
+							réclamaient simultanément le micro central pour l'allocution inaugurale. Aucun des deux
+							dirigeants ne voulut céder le pupitre.</p>
+					</div>
+
+					<div class="story-card">
+						<span class="act-tag">Acte I</span>
+						<h3>La Guerre des Feutres & Missiles</h3>
+						<p>Bibi répliqua en dégainant une pancarte carton de 2 mètres avec une bombe dessinée au feutre
+							rouge indélébile. Kim Jong Un répondit immédiatement en publiant un clip 4K en veste
+							aviateur avec compte à rebours dramatique.</p>
+					</div>
+
+					<div class="story-card">
+						<span class="act-tag">Acte II</span>
+						<h3>Le Duel des Barytons</h3>
+						<p>Réunis face à face sur une estrade spécialement renforcée, ils engagèrent une joute verbale
+							d'une intensité inouïe. Les décibels de Netanyahu firent osciller les lustres, tandis que
+							les regards perçants de Kim fissuraient le parquet.</p>
+					</div>
+
+					<div class="story-card">
+						<span class="act-tag">Épilogue</span>
+						<h3>Le Pacte du Grand Banquet</h3>
+						<p>Épuisés après 14 heures de poses héroïques ininterrompues, les deux hommes décidèrent d'un
+							cessez-le-feu historique autour d'un grand festin mêlant falafels dorés et barbecue coréen
+							traditionnel.</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- ================= TALE OF THE TAPE ================= -->
+			<section class="tape-section">
+				<div class="section-header">
+					<h2 class="section-title">Fiche Comparative (Tale of the Tape)</h2>
+					<p style="color: var(--text-muted);">L'analyse technique des arbitres internationaux avant le coup
+						d'envoi.</p>
+				</div>
+
+				<table class="tape-table">
+					<thead>
+						<tr>
+							<th class="name-bibi">B. Netanyahu</th>
+							<th>Critère</th>
+							<th class="name-kim">Kim Jong Un</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="tape-bibi-val">Baryton Résonnant (110 dB)</td>
+							<td class="tape-crit">Timbre de voix</td>
+							<td class="tape-kim-val">Calme Impérial & Écho martial</td>
+						</tr>
+						<tr>
+							<td class="tape-bibi-val">Costume bleu foncé & Cravate stricte</td>
+							<td class="tape-crit">Tenue de Combat</td>
+							<td class="tape-kim-val">Veste en cuir noir & Lunettes rétro</td>
+						</tr>
+						<tr>
+							<td class="tape-bibi-val">Carton et feutre rouge à l'ONU</td>
+							<td class="tape-crit">Accessoire Signature</td>
+							<td class="tape-kim-val">Bouton rouge de poche & Jumelles chromées</td>
+						</tr>
+						<tr>
+							<td class="tape-bibi-val">Dissolution surprise de la Knesset</td>
+							<td class="tape-crit">Esquive Favorite</td>
+							<td class="tape-kim-val">Disparition de 3 semaines puis retour triomphal</td>
+						</tr>
+						<tr>
+							<td class="tape-bibi-val">Infini (Résiste à tout changement)</td>
+							<td class="tape-crit">Espérance au Pouvoir</td>
+							<td class="tape-kim-val">Héréditaire & Éternel</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
+			<!-- ================= GENERATEUR DE CLASHS ================= -->
+			<section class="clash-section">
+				<h2 class="section-title" style="font-size: 1.6rem;">⚡ Générateur de Punchlines Diplomatiques</h2>
+				<p style="color: var(--text-muted); margin-bottom: 15px;">Simulez les répliques que les microphones
+					officiels ont préféré couper.</p>
+
+				<div class="clash-box" id="clash-box">
+					« Monsieur Kim, vos fusées sont peut-être rapides, mais aucune n'a la portée de mon allocution de 18
+					heures à la tribune. » — Bibi
+				</div>
+
+				<button class="btn-clash" onclick="generateClash()">
+					🎲 Générer un Clash Inédit
+				</button>
+			</section>
+		</main>
+
+		<footer>
+			<p>Site parodique et satirique réalisé à des fins créatives et pédagogiques.</p>
+			<p style="margin-top: 6px; font-size: 0.75rem; opacity: 0.7;">Aucun diplomate, feutre rouge ou bouton n'a
+				été endommagé pendant ce combat.</p>
+		</footer>
+	</div>
+
+	<!-- ================= SCRIPTS & AUDIO SYNTH ================= -->
+	<script>
+		// Gestion de l'état du combat
+		let hpBibi = 100;
+		let hpKim = 100;
+		let isGameOver = false;
+
+		const hpBibiBar = document.getElementById('hp-bibi-bar');
+		const hpKimBar = document.getElementById('hp-kim-bar');
+		const hpBibiText = document.getElementById('hp-bibi-text');
+		const hpKimText = document.getElementById('hp-kim-text');
+		const battleLog = document.getElementById('battle-log');
+		const mainContainer = document.getElementById('main-container');
+
+		// Audio Synthesizer (Web Audio API native, sans fichiers externes)
+		let audioCtx = null;
+		function initAudio() {
+			if (!audioCtx) {
+				const AudioContext = window.AudioContext || window.webkitAudioContext;
+				if (AudioContext) audioCtx = new AudioContext();
+			}
+		}
+
+		function playSound(type) {
+			try {
+				initAudio();
+				if (!audioCtx) return;
+				const osc = audioCtx.createOscillator();
+				const gain = audioCtx.createGain();
+				osc.connect(gain);
+				gain.connect(audioCtx.destination);
+				const now = audioCtx.currentTime;
+
+				if (type === 'hit') {
+					osc.type = 'sawtooth';
+					osc.frequency.setValueAtTime(160, now);
+					osc.frequency.exponentialRampToValueAtTime(40, now + 0.18);
+					gain.gain.setValueAtTime(0.3, now);
+					gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
+					osc.start(now);
+					osc.stop(now + 0.18);
+				} else if (type === 'heal') {
+					osc.type = 'sine';
+					osc.frequency.setValueAtTime(300, now);
+					osc.frequency.exponentialRampToValueAtTime(650, now + 0.25);
+					gain.gain.setValueAtTime(0.25, now);
+					gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+					osc.start(now);
+					osc.stop(now + 0.25);
+				} else if (type === 'ultimate') {
+					osc.type = 'triangle';
+					osc.frequency.setValueAtTime(200, now);
+					osc.frequency.linearRampToValueAtTime(800, now + 0.4);
+					gain.gain.setValueAtTime(0.35, now);
+					gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+					osc.start(now);
+					osc.stop(now + 0.4);
+				}
+			} catch (e) {
+				// Audio non critique
+			}
+		}
+
+		// Fonction d'attaque
+		function attackMove(attacker, moveType, dmg, logText) {
+			if (isGameOver) {
+				addLog("⚠️ Le duel est terminé ! Cliquez sur 'Recommencer le Duel'.", "#e2e8f0");
+				return;
+			}
+
+			// Effet sonore et secousse d'écran
+			if (dmg > 0) {
+				playSound('hit');
+				triggerShake();
+			} else {
+				playSound('heal');
+			}
+
+			// Effet étincelles
+			createSparks(window.innerWidth / 2, window.innerHeight / 2);
+
+			if (attacker === 'bibi') {
+				if (dmg < 0) {
+					// Soin
+					hpBibi = Math.min(100, hpBibi - dmg);
+				} else {
+					hpKim = Math.max(0, hpKim - dmg);
+				}
+			} else {
+				hpBibi = Math.max(0, hpBibi - dmg);
+			}
+
+			updateHpBars();
+			addLog(logText, attacker === 'bibi' ? '#7dd3fc' : '#fca5a5');
+
+			// Vérifier la victoire
+			checkWinner();
+		}
+
+		function updateHpBars() {
+			hpBibiBar.style.width = hpBibi + '%';
+			hpKimBar.style.width = hpKim + '%';
+			hpBibiText.innerText = hpBibi + ' / 100 PV';
+			hpKimText.innerText = hpKim + ' / 100 PV';
+
+			// Changement de couleur dynamique si PV faibles
+			if (hpBibi <= 25) hpBibiBar.style.background = '#ef4444';
+			else hpBibiBar.style.background = 'linear-gradient(90deg, #0284c7, #38bdf8)';
+
+			if (hpKim <= 25) hpKimBar.style.background = '#e11d48';
+			else hpKimBar.style.background = 'linear-gradient(90deg, #dc2626, #f87171)';
+		}
+
+		function checkWinner() {
+			if (hpKim === 0 && hpBibi > 0) {
+				isGameOver = true;
+				addLog("🏆 VICTOIRE DE BIBI ! Netanyahu conserve son estrade et commence une allocution de 48 heures sans interruption !", "#ffd778");
+				celebrateVictory('#0ea5e9');
+			} else if (hpBibi === 0 && hpKim > 0) {
+				isGameOver = true;
+				addLog("🏆 VICTOIRE DE KIM ! Kim Jong Un prend le contrôle du pupitre au ralenti sous les ovations martiales !", "#f87171");
+				celebrateVictory('#ef4444');
+			} else if (hpBibi === 0 && hpKim === 0) {
+				isGameOver = true;
+				addLog("🤝 ÉGALITÉ PARFAITE ! Les deux titans signent le traité du Barbecue et des Falafels !", "#f59e0b");
+				celebrateVictory('#f59e0b');
+			}
+		}
+
+		function ultimateCombo() {
+			if (isGameOver) {
+				resetBattle();
+			}
+			playSound('ultimate');
+			triggerShake();
+
+			hpBibi = Math.max(0, hpBibi - 25);
+			hpKim = Math.max(0, hpKim - 25);
+			updateHpBars();
+
+			addLog("💥 ATTAQUE COMBINÉE ULTIME : Les feutres de l'ONU fusionnent avec un tir orbital en slow-motion ! La planète tremble sous l'audace diplomatique !", "#f59e0b");
+			celebrateVictory('#f59e0b');
+			checkWinner();
+		}
+
+		function resetBattle() {
+			hpBibi = 100;
+			hpKim = 100;
+			isGameOver = false;
+			updateHpBars();
+			addLog("🔄 Les arbitres ont replacé les pupitres. Nouveau round !", "#fde68a");
+		}
+
+		function addLog(text, color) {
+			const entry = document.createElement('div');
+			entry.className = 'log-entry';
+			entry.style.color = color || '#f8fafc';
+			entry.innerHTML = text;
+			battleLog.prepend(entry);
+		}
+
+		function triggerShake() {
+			mainContainer.classList.add('shake-screen');
+			setTimeout(() => {
+				mainContainer.classList.remove('shake-screen');
+			}, 400);
+		}
+
+		// Effet d'étincelles
+		function createSparks(x, y) {
+			const colors = ['#0ea5e9', '#ef4444', '#f59e0b', '#ffffff'];
+			for (let i = 0; i < 16; i++) {
+				const spark = document.createElement('div');
+				spark.className = 'spark';
+				spark.style.left = (x || window.innerWidth / 2) + 'px';
+				spark.style.top = (y || window.innerHeight / 2) + 'px';
+				spark.style.width = Math.random() * 8 + 4 + 'px';
+				spark.style.height = spark.style.width;
+				spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+				const angle = Math.random() * Math.PI * 2;
+				const dist = Math.random() * 120 + 40;
+				spark.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+				spark.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+
+				document.body.appendChild(spark);
+				setTimeout(() => spark.remove(), 1200);
+			}
+		}
+
+		function celebrateVictory(primaryColor) {
+			for (let i = 0; i < 40; i++) {
+				setTimeout(() => {
+					createSparks(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.7);
+				}, i * 35);
+			}
+		}
+
+		// Générateur de clashs diplomatiques
+		const clashes = [
+			"« Monsieur Kim, vos fusées sont peut-être rapides, mais aucune n'a la portée de mon allocution de 18 heures à la tribune. » — Bibi",
+			"« Monsieur Netanyahu, votre feutre rouge est amusant, mais essayez donc de dessiner sur mon nouveau char de parade. » — Kim",
+			"« Vous dissoudrez peut-être votre parlement, mais vous ne dissoudrez jamais ma présence légendaire en veste de cuir. » — Kim",
+			"« Le monde entier regarde mes schémas avec fascination, alors que vos défilés manquent cruellement d'accessoires didactiques. » — Bibi",
+			"« Nous pourrions nous affronter pendant mille ans, ou simplement partager ce banquet avant le prochain vote à l'Assemblée. » — Déclaration conjointe"
+		];
+
+		function generateClash() {
+			const clashBox = document.getElementById('clash-box');
+			const randomClash = clashes[Math.floor(Math.random() * clashes.length)];
+			clashBox.style.opacity = 0;
+			setTimeout(() => {
+				clashBox.innerText = randomClash;
+				clashBox.style.opacity = 1;
+			}, 150);
+		}
+	</script>
+</body>
+
+</html>
