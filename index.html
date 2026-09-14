@@ -7,11 +7,30 @@
 </head>
 <body>
 	<h1>League of Legends</h1>
+    <img src="https://armandodalessandro.wordpress.com/wp-content/uploads/2014/01/lol-banner.jpg" alt="League of Legends Banner" width="600"/>
 	<p>Bienvenue sur ma page test dédiée à League of Legends.</p>
 	<h2>Un jeu en équipe</h2>
 	<p>Affrontez une équipe adverse et choisissez votre champion.</p>
 	<p>Chaque champion possède des compétences uniques et un style de jeu différent.</p>
 	<p>Travaillez en équipe pour atteindre l'objectif et détruire le Nexus ennemi.</p>
 	<p>NIGGER NIGGA BIGGABOY DIGGER NIGGER CHITTER enzo</p>
+	<button id="rammus-ok" type="button" aria-label="Faire dire OK à Rammus">Rammus : OK</button>
+	<audio id="rammus-audio" preload="metadata">
+		<source src="https://www.myinstants.com/media/sounds/ok_itRXUHc.mp3" type="audio/mpeg">
+	</audio>
+	<script>
+		const rammusButton = document.getElementById('rammus-ok');
+		const rammusAudio = document.getElementById('rammus-audio');
+
+		rammusButton.addEventListener('click', () => {
+			rammusAudio.currentTime = 0;
+			rammusAudio.play().catch(() => {
+				if ('speechSynthesis' in window) {
+					window.speechSynthesis.cancel();
+					window.speechSynthesis.speak(new SpeechSynthesisUtterance('OK'));
+				}
+			});
+		});
+	</script>
 </body>
 </html>
